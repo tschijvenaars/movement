@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-4">
+        Latest Logs
+        <div *ngFor="let log of logs">
+            {{ log.Message }} - {{ log.Description }} - {{ getDate(log.DateTime) | timeAgo}} 
+        </div>
+    </div>
+    <div class="col-4">
+        Latest Locations
+        <div class="mt-1" *ngFor="let location of locations">
+            {{location.SensorType}} - {{ getDate(location.Date) | timeAgo}} 
+        </div>
+    </div>
+    <div class="col-4">
+        Latest Syncs
+        <div class="mt-1"  *ngFor="let track of trackers">
+            Batterylevel: {{ track.BatteryLevel }} - {{ getDate(track.Date) | timeAgo}} 
+        </div>
+    </div>
+
+</div>

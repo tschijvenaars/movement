@@ -1,0 +1,1355 @@
+basePath: /api
+definitions:
+  dtos.DeltaDTO:
+    properties:
+      date:
+        type: integer
+      delta:
+        type: integer
+    type: object
+  dtos.LatLonDTO:
+    type: object
+  dtos.LoginPayload:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dtos.LoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  dtos.TrackedDayDTO:
+    properties:
+      choiceId:
+        type: integer
+      confirmed:
+        type: boolean
+      day:
+        type: integer
+      missing:
+        type: number
+      trackedDayId:
+        type: integer
+      unvalidated:
+        type: number
+      validated:
+        type: number
+    type: object
+  dtos.TrackedLocationDTO:
+    properties:
+      confirmed:
+        type: boolean
+      endTime:
+        type: integer
+      id:
+        type: integer
+      lat:
+        type: number
+      lon:
+        type: number
+      movements:
+        items:
+          $ref: '#/definitions/dtos.TrackedMovementDTO'
+        type: array
+      name:
+        type: string
+      reasonId:
+        type: integer
+      startTime:
+        type: integer
+      trackedDayId:
+        type: integer
+    type: object
+  dtos.TrackedMovementDTO:
+    properties:
+      confirmed:
+        type: boolean
+      endTime:
+        type: integer
+      id:
+        type: integer
+      latlons:
+        items:
+          $ref: '#/definitions/dtos.LatLonDTO'
+        type: array
+      movementCategoryId:
+        type: integer
+      startTime:
+        type: integer
+      trackedLocationId:
+        type: integer
+    type: object
+  dtos.TrackedMovementLatLonDTO:
+    properties:
+      id:
+        type: integer
+      lat:
+        type: number
+      lon:
+        type: number
+      mappedDate:
+        type: integer
+      trackedMovementId:
+        type: integer
+    type: object
+  maps.AddressGeometry:
+    properties:
+      bounds:
+        $ref: '#/definitions/maps.LatLngBounds'
+      location:
+        $ref: '#/definitions/maps.LatLng'
+      location_type:
+        type: string
+      types:
+        items:
+          type: string
+        type: array
+      viewport:
+        $ref: '#/definitions/maps.LatLngBounds'
+    type: object
+  maps.LatLng:
+    properties:
+      lat:
+        type: number
+      lng:
+        type: number
+    type: object
+  maps.LatLngBounds:
+    properties:
+      northeast:
+        $ref: '#/definitions/maps.LatLng'
+      southwest:
+        $ref: '#/definitions/maps.LatLng'
+    type: object
+  maps.OpeningHours:
+    properties:
+      open_now:
+        description: |-
+          OpenNow is a boolean value indicating if the place is open at the current time.
+          Please note, this field will be null if it isn't present in the response.
+        type: boolean
+      periods:
+        description: |-
+          Periods is an array of opening periods covering seven days, starting from Sunday,
+          in chronological order.
+        items:
+          $ref: '#/definitions/maps.OpeningHoursPeriod'
+        type: array
+      permanently_closed:
+        description: |-
+          PermanentlyClosed indicates that the place has permanently shut down. Please
+          note, this field will be null if it isn't present in the response.
+        type: boolean
+      weekday_text:
+        description: |-
+          weekdayText is an array of seven strings representing the formatted opening hours
+          for each day of the week, for example "Monday: 8:30 am – 5:30 pm".
+        items:
+          type: string
+        type: array
+    type: object
+  maps.OpeningHoursOpenClose:
+    properties:
+      day:
+        description: |-
+          Day is a number from 0–6, corresponding to the days of the week, starting on
+          Sunday. For example, 2 means Tuesday.
+        type: integer
+      time:
+        description: |-
+          Time contains a time of day in 24-hour hhmm format. Values are in the range
+          0000–2359. The time will be reported in the place’s time zone.
+        type: string
+    type: object
+  maps.OpeningHoursPeriod:
+    properties:
+      close:
+        $ref: '#/definitions/maps.OpeningHoursOpenClose'
+        description: Close is when the place closes.
+      open:
+        $ref: '#/definitions/maps.OpeningHoursOpenClose'
+        description: Open is when the place opens.
+    type: object
+  maps.Photo:
+    properties:
+      height:
+        description: Height is the maximum height of the image.
+        type: integer
+      html_attributions:
+        description: htmlAttributions contains any required attributions.
+        items:
+          type: string
+        type: array
+      photo_reference:
+        description: PhotoReference is used to identify the photo when you perform
+          a Photo request.
+        type: string
+      width:
+        description: Width is the maximum width of the image.
+        type: integer
+    type: object
+  maps.PlacesSearchResult:
+    properties:
+      business_status:
+        description: |-
+          BusinessStatus is a string indicating the operational status of the
+          place, if it is a business.
+        type: string
+      formatted_address:
+        description: FormattedAddress is the human-readable address of this place
+        type: string
+      geometry:
+        $ref: '#/definitions/maps.AddressGeometry'
+        description: |-
+          Geometry contains geometry information about the result, generally including the
+          location (geocode) of the place and (optionally) the viewport identifying its
+          general area of coverage.
+      icon:
+        description: |-
+          Icon contains the URL of a recommended icon which may be displayed to the user
+          when indicating this result.
+        type: string
+      id:
+        description: ID is an identifier.
+        type: string
+      name:
+        description: |-
+          Name contains the human-readable name for the returned result. For establishment
+          results, this is usually the business name.
+        type: string
+      opening_hours:
+        $ref: '#/definitions/maps.OpeningHours'
+        description: OpeningHours may contain whether the place is open now or not.
+      permanently_closed:
+        description: |-
+          PermanentlyClosed is a boolean flag indicating whether the place has permanently
+          shut down.
+        type: boolean
+      photos:
+        description: Photos is an array of photo objects, each containing a reference
+          to an image.
+        items:
+          $ref: '#/definitions/maps.Photo'
+        type: array
+      place_id:
+        description: PlaceID is a textual identifier that uniquely identifies a place.
+        type: string
+      price_level:
+        description: PriceLevel is the price level of the place, on a scale of 0 to
+          4.
+        type: integer
+      rating:
+        description: |-
+          Rating contains the place's rating, from 1.0 to 5.0, based on aggregated user
+          reviews.
+        type: number
+      types:
+        description: Types contains an array of feature types describing the given
+          result.
+        items:
+          type: string
+        type: array
+      user_ratings_total:
+        description: UserRatingsTotal contains total number of the place's ratings
+        type: integer
+      vicinity:
+        description: Vicinity contains a feature name of a nearby location.
+        type: string
+    type: object
+  models.Device:
+    properties:
+      androidId:
+        type: string
+      brand:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      device:
+        type: string
+      deviceModel:
+        type: string
+      errorLogs:
+        items:
+          $ref: '#/definitions/models.ErrorLog'
+        type: array
+      id:
+        type: integer
+      logs:
+        items:
+          $ref: '#/definitions/models.Log'
+        type: array
+      product:
+        type: string
+      sdk:
+        type: string
+      secureId:
+        type: string
+      updatedAt:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userId:
+        type: integer
+      version:
+        type: string
+    type: object
+  models.ErrorLog:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      deviceID:
+        type: integer
+      id:
+        type: integer
+      type:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.Location:
+    properties:
+      accuracy:
+        type: number
+      altitude:
+        type: number
+      bearing:
+        type: number
+      createdAt:
+        type: string
+      date:
+        type: integer
+      deletedAt:
+        type: string
+      id:
+        type: integer
+      lat:
+        type: number
+      lon:
+        type: number
+      provider:
+        type: string
+      sensorType:
+        type: string
+      speed:
+        type: number
+      trackerID:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  models.Log:
+    properties:
+      createdAt:
+        type: string
+      dateTime:
+        type: integer
+      deletedAt:
+        type: string
+      description:
+        type: string
+      device:
+        $ref: '#/definitions/models.Device'
+      deviceID:
+        type: integer
+      id:
+        type: integer
+      message:
+        type: string
+      type:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.Reason:
+    properties:
+      color:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.Tracker:
+    properties:
+      batteryLevel:
+        type: integer
+      createdAt:
+        type: string
+      date:
+        type: integer
+      deletedAt:
+        type: string
+      device:
+        $ref: '#/definitions/models.Device'
+      deviceID:
+        type: integer
+      id:
+        type: integer
+      locations:
+        items:
+          $ref: '#/definitions/models.Location'
+        type: array
+      updatedAt:
+        type: string
+    type: object
+  models.Transport:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      hexColor:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: CBS Swagger backend server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: CBS Backend Swagger server
+  version: "1.0"
+paths:
+  /device:
+    post:
+      consumes:
+      - application/json
+      description: Post request to add new device with user ID on database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Device'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Creates device on database.
+      tags:
+      - device
+    put:
+      consumes:
+      - application/json
+      description: Updates Device on database.
+      parameters:
+      - description: Device
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/models.Device'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Device'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Update Device on database
+      tags:
+      - device
+  /devices:
+    get:
+      consumes:
+      - application/json
+      description: Gets devices from database.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Device'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Get List of all devices
+      tags:
+      - device
+  /devices/bySecureId/{secureId}:
+    get:
+      consumes:
+      - application/json
+      description: Gets Device from database by matching secure ID.
+      parameters:
+      - description: Secure ID
+        in: path
+        name: secureId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Device'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Get device by its secure ID
+      tags:
+      - device
+  /googlesearch/geosearch/:lat/:lng:
+    get:
+      consumes:
+      - application/json
+      description: GET request for closest address based on location latlon
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      - description: Latitude
+        in: path
+        name: lat
+        required: true
+        type: string
+      - description: Longitude
+        in: path
+        name: lng
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/maps.PlacesSearchResult'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Gets closest address based on location
+      tags:
+      - googleapi
+  /googlesearch/textsearch/:query:
+    get:
+      consumes:
+      - application/json
+      description: GET request for location strings based on search query
+      parameters:
+      - description: Query
+        in: path
+        name: query
+        required: true
+        type: string
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/maps.PlacesSearchResult'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Gets locations from text query
+      tags:
+      - googleapi
+  /googlesearch/textsearch/:query/:lat/:lng:
+    get:
+      consumes:
+      - application/json
+      description: GET request for location strings based on search query and latlon
+        of user
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      - description: Query
+        in: path
+        name: query
+        required: true
+        type: string
+      - description: Latitude
+        in: path
+        name: lat
+        required: true
+        type: string
+      - description: Longitude
+        in: path
+        name: lng
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/maps.PlacesSearchResult'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Gets prioritized locations from text query and position
+      tags:
+      - googleapi
+  /locations/GetLatestLocationsPeriods/{secureId}:
+    get:
+      consumes:
+      - application/json
+      description: Get latest location periods from database
+      parameters:
+      - description: Secure ID
+        in: path
+        name: secureId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dtos.DeltaDTO'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Get latest location periods
+      tags:
+      - location
+  /locations/getLatest/{secureId}:
+    get:
+      consumes:
+      - application/json
+      description: Get latest location from database
+      parameters:
+      - description: Secure ID
+        in: path
+        name: secureId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Location'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Get latest location
+      tags:
+      - location
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Checks usercredentials and logs in, returns token for authorized
+        User
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.LoginPayload'
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.LoginResponse'
+        "400":
+          description: invalid json
+          schema:
+            type: string
+        "401":
+          description: invalid user credentials
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "500":
+          description: error signing token
+          schema:
+            type: string
+      summary: Login for users
+      tags:
+      - auth
+  /logs:
+    post:
+      consumes:
+      - application/json
+      description: Posts log of tracker to database
+      parameters:
+      - description: Log
+        in: body
+        name: logs
+        required: true
+        schema:
+          $ref: '#/definitions/models.Log'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Log'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Posts log of tracker
+      tags:
+      - logging
+  /logs/getLatest/{secureId}:
+    get:
+      consumes:
+      - application/json
+      description: Gets latest logs of secureId from database
+      parameters:
+      - description: Secure ID
+        in: path
+        name: secureId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Log'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Gets latest logs of secureId
+      tags:
+      - logging
+  /logs/syncLogs:
+    post:
+      consumes:
+      - application/json
+      description: Syncs logs
+      parameters:
+      - description: Log
+        in: body
+        name: logs
+        required: true
+        schema:
+          $ref: '#/definitions/models.Log'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Device'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Syncs logs
+      tags:
+      - logging
+  /reasons:
+    get:
+      consumes:
+      - application/json
+      description: Gets reasons from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Reason'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Gets reasons
+      tags:
+      - reasons
+  /tracked/deleteTrackedLocation:
+    post:
+      consumes:
+      - application/json
+      description: POST request to delete tracked location in database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TrackedLocationDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Delete Tracked Location
+      tags:
+      - trackedlocation
+  /tracked/deleteTrackedMovement:
+    post:
+      consumes:
+      - application/json
+      description: POST request to delete tracked movement from database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TrackedMovementDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Delete Tracked Movement
+      tags:
+      - trackedmovement
+  /tracked/insertTrackedDay:
+    post:
+      consumes:
+      - application/json
+      description: POST request to insert tracked day into database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TrackedDayDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Insert Tracked Day
+      tags:
+      - trackedday
+  /tracked/insertTrackedLocation:
+    post:
+      consumes:
+      - application/json
+      description: POST request to insert tracked location in database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TrackedLocationDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Insert Tracked Location
+      tags:
+      - trackedlocation
+  /tracked/insertTrackedMovement:
+    post:
+      consumes:
+      - application/json
+      description: POST request to insert tracked movement in database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TrackedMovementDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Insert Tracked Movement
+      tags:
+      - trackedmovement
+  /tracked/insertTrackedMovementLatLon:
+    post:
+      consumes:
+      - application/json
+      description: POST request to insert tracked latlon in database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TrackedMovementLatLonDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Insert Tracked LatLon
+      tags:
+      - trackedmovement
+  /tracked/updateTrackedDay:
+    post:
+      consumes:
+      - application/json
+      description: POST request to update tracked day in database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TrackedDayDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Update Tracked Day
+      tags:
+      - trackedday
+  /tracked/updateTrackedLocation:
+    post:
+      consumes:
+      - application/json
+      description: POST request to update tracked location in database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TrackedLocationDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Update Tracked Location
+      tags:
+      - trackedlocation
+  /tracked/updateTrackedMovement:
+    post:
+      consumes:
+      - application/json
+      description: POST request to update tracked movement in database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TrackedMovementDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Update Tracked Movement
+      tags:
+      - trackedmovement
+  /tracked/updateTrackedMovementLatLon:
+    post:
+      consumes:
+      - application/json
+      description: POST request to update tracked latlon in database
+      parameters:
+      - description: UserID
+        in: header
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.TrackedMovementLatLonDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      security:
+      - Authorization: []
+      summary: Update Tracked LatLon
+      tags:
+      - trackedmovement
+  /trackers:
+    post:
+      consumes:
+      - application/json
+      description: Sync Trackers
+      parameters:
+      - description: Tracker
+        in: body
+        name: tracker
+        required: true
+        schema:
+          $ref: '#/definitions/models.Tracker'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Tracker'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Sync Trackers
+      tags:
+      - tracker
+  /trackers/GetLatestTrackersPeriods/{secureId}:
+    get:
+      consumes:
+      - application/json
+      description: Get latest tracker periods from database
+      parameters:
+      - description: Secure ID
+        in: path
+        name: secureId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dtos.DeltaDTO'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Get latest tracker periods
+      tags:
+      - tracker
+  /trackers/getLatest/{secureId}:
+    get:
+      consumes:
+      - application/json
+      description: Get latest trackers from database
+      parameters:
+      - description: Secure ID
+        in: path
+        name: secureId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Tracker'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Get latest trackers
+      tags:
+      - tracker
+  /transports:
+    get:
+      consumes:
+      - application/json
+      description: Get transports from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Transport'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorLog'
+      summary: Gets transports
+      tags:
+      - transport
+securityDefinitions:
+  BasicAuthorization:
+    type: basic
+swagger: "2.0"

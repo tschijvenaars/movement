@@ -1,0 +1,27 @@
+<div class="logo">
+  <div class="simple-text logo-normal">
+    Devices
+  </div>
+</div>
+<div class="sidebar-wrapper">
+  <ul class="nav">
+    <li routerLinkActive="active" class="nav-item">
+      <a [routerLink]="['/dashboard']">
+        <i class="tim-icons icon-chart-pie-36"></i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+    <li routerLinkActive="active" class="nav-item">
+      <a [routerLink]="['/test-algo']">
+        <i class="tim-icons icon-chart-pie-36"></i>
+        <p>Algoritme</p>
+      </a>
+    </li>
+    <li routerLinkActive="active" *ngFor="let device of devices" class="nav-item">
+      <a [routerLink]="['device/', device.SecureId]">
+        <i class="tim-icons icon-puzzle-10"></i>
+        <p>{{ device.Brand }} - {{ device.Device }} - SDK:{{ device.SDK }}</p>
+      </a>
+    </li>
+  </ul>
+</div>

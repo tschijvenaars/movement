@@ -1,0 +1,69 @@
+<div class=" content">
+
+    <div class=" row">
+        <div class=" col-12">
+            <div class=" card card-chart">
+                <div class=" card-header" *ngIf="device">
+                    <h5 class=" card-category"> version: {{ device.Version }} - model: {{ device.DeviceModel }} -
+                        product: {{
+                        device.Product }} - android id: {{ device.AndroidId }}</h5>
+                    <h3 class=" card-title">
+                        {{ device.Brand }} - {{ device.Device }} - SDK:{{ device.SDK }}
+                    </h3>
+                </div>
+                <div class="card-body ml-4 mr-4 mb-4">
+                    <div class="row">
+                        <div class="col-4">
+                            Latest Logs
+                            <div *ngFor="let log of logs">
+                                {{ log.Message }} - {{ log.Description }} - {{ getDate(log.DateTime) | timeAgo}}
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            Latest Locations
+                            <div class="mt-1" *ngFor="let location of locations">
+                                {{location.SensorType}} - {{ getDate(location.Date) | timeAgo}}
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            Latest Syncs
+                            <div class="mt-1" *ngFor="let track of trackers">
+                                Batterylevel: {{ track.BatteryLevel }} - {{ getDate(track.Date) | timeAgo}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <div class=" card card-chart">
+                <div class=" card-header" *ngIf="device">
+                    <h5 class=" card-category"> LocationTracker</h5>
+                    <h3 class=" card-title">
+
+                    </h3>
+                </div>
+                <div class="card-body ml-4 mr-4 mb-4">
+                    <bar-chart [(labels)]="locationLabels" [(data)]="locationData"></bar-chart>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class=" card card-chart">
+                <div class=" card-header" *ngIf="device">
+                    <h5 class=" card-category"> DeltaTracker</h5>
+                    <h3 class=" card-title">
+
+                    </h3>
+                </div>
+                <div class="card-body ml-4 mr-4 mb-4">
+                    <bar-chart [(labels)]="trackerLabels" [(data)]="trackerData"></bar-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

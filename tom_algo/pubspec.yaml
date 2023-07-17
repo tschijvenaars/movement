@@ -1,0 +1,15 @@
+name: movement_algo
+description: Classification algorithm for the movement app
+version: 0.0.1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  csv: ^5.0.1
+  http: ^0.13.4
+  intl: ^0.17.0
+  latlong2: ^0.8.1
+  osm_tile_fetcher: ^1.0.0
+
+dev_dependencies:

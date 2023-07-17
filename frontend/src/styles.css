@@ -1,0 +1,45 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+/* You can add global styles to this file, and also import other style files */
+
+body {
+    background-color: #333333de;
+    /* background-image: linear-gradient(to right, black, rgba(0, 0, 0, 0.644), rgba(0, 0, 0, 0.288), white); */
+}
+
+html {
+    background-color: #333333de;
+}
+
+.mat-progress-bar-fill::after {
+    background-color: #155724;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.mat-progress-bar .mat-progress-bar-buffer {
+    background: rgb(229, 248, 231);
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.mat-progress-bar {
+    opacity: 0;
+    animation: ContentFadeInAchievements .8s 1.6s forwards;
+}
+
+@keyframes ContentFadeInAchievements {
+    0% {
+        transform: translateX(-1rem);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

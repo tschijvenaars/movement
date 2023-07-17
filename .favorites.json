@@ -1,0 +1,18 @@
+[
+    {
+        "type": "Directory",
+        "name": "/Users/tom/work/movement project/apps/movement/desktop/lib/infastructure/notifiers",
+        "parent_id": null,
+        "workspaceRoot": "/Users/tom/work/movement project/apps/movement",
+        "workspacePath": "desktop/lib/infastructure/notifiers",
+        "id": "vmMITrJ6bgUC2iZQ"
+    },
+    {
+        "type": "Directory",
+        "name": "/Users/tom/work/movement project/apps/movement/desktop/lib/infastructure/repositories",
+        "parent_id": null,
+        "workspaceRoot": "/Users/tom/work/movement project/apps/movement",
+        "workspacePath": "desktop/lib/infastructure/repositories",
+        "id": "rRJa1zoV4npcQbZE"
+    }
+]

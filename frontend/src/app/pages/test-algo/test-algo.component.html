@@ -1,0 +1,65 @@
+<div class=" content">
+    <div class="row">
+        <div class="col-4">
+            <div class="testcase-sidebar">
+                <div class="logo">
+                    <div class="simple-text logo-normal">
+                        Test Cases
+                    </div>
+                </div>
+                <div class="sidebar-wrapper mt-5 ml-2">
+                    <div class="testcase-text" (click)=clickSynopsys()>
+                        Synopsys
+                    </div>
+                </div>
+                <div class="sidebar-wrapper mt-4 ml-2">
+                    <div class="testcase-text mb-3">
+                        Testcases
+                    </div>
+                    <div *ngFor="let testCase of testCases; let i = index" class="testcase" (click)=clickTestCase(i)>
+                        {{ getDate(testCase.Day) }} - {{ testCase.Brand }} - {{ testCase.Sdk }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-8" *ngIf="synopsys">
+            <synopsys [(testCaseData)]="testCases"></synopsys>
+        </div>
+        <div class="col-8" *ngIf="!synopsys">
+
+            <div class="row" *ngIf="selectedCase">
+                <div class="col-12">{{ getDate(selectedCase.Day) }} - {{ selectedCase.Brand }} - {{ selectedCase.Sdk }}
+                </div>
+            </div>
+            <div class="row" *ngIf="selectedCase">
+                <div class="col-12">RawData points:{{ selectedCase.RawData.length }} - TrackedLocations points: {{ selectedCase.ValidatedData.TrackedLocations.length}}
+                </div>
+            </div>
+            <div class="row map mt-3">
+                <div class="col-6" *ngIf="rawLocations">
+                    Raw data points
+                    <geo-map [(rawLocations)]="rawLocations"></geo-map>
+                </div>
+                <div class="col-6" *ngIf="calculatedPoints">
+                    second algo
+                    <sec-map [(rawLocations)]="calculatedPoints"></sec-map>
+                </div>
+            </div>
+            <div class="row map">
+                <div class="col-6">
+                    <div class="row">CorrectLocationCount: {{ correctLocationCount }}</div>
+                    <div class="row mb-3">IncorrectLocationCount: {{ incorrectLocationCount }}</div>
+
+                    <div class="row">CorrectMovementCounter: {{ correctMovementCounter }}</div>
+                    <div class="row">IncorrectMovementCounter: {{ incorrectMovementCounter }}</div>
+
+                </div>
+                <div class="col-6" *ngIf="selectedAlgoCase">
+                    Generated data points
+                    <algo-map [(results)]="selectedAlgoCase"></algo-map>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

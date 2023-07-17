@@ -1,0 +1,19 @@
+<div class=" content">
+
+  <div *ngFor="let device of devices" class=" row">
+    <div class=" col-12">
+      <div class=" card card-chart">
+        <div class=" card-header">
+          <h5 class=" card-category"> version: {{ device.Version }} - model: {{ device.DeviceModel }} - product: {{
+            device.Product }} - android id: {{ device.AndroidId }}</h5>
+          <h3 class=" card-title">
+            {{ device.Brand }} - {{ device.Device }} - SDK:{{ device.SDK }}
+          </h3>
+        </div>
+        <div class="card-body ml-4 mr-4 mb-4">
+          <dashboard-synopsis [(secureId)]="device.SecureId"></dashboard-synopsis>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
